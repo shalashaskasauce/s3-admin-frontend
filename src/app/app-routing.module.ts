@@ -7,10 +7,6 @@ const routes: Routes = [
     loadChildren: () => import('./modules/s3/s3.module').then(m => m.S3Module)
   },
   {
-    path: 'local',
-    loadChildren: () => import('./modules/local/local.module').then(m => m.LocalModule)
-  },
-  {
     path: 'admin',
     loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
   }

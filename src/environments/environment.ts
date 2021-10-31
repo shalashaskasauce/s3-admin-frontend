@@ -6,7 +6,7 @@ const s3Root = 'https://docs.aws.amazon.com/AmazonS3/latest/userguide/';
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost/rest/index.php',
+  apiUrl: 'http://localhost:3000',
   links: {
     s3_bucket: {
       href: `${s3Root}UsingBucket.html`,

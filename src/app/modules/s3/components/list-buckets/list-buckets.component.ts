@@ -3,6 +3,7 @@ import { first } from 'rxjs/operators';
 
 import { S3Service } from '../../services/s3.service';
 import { environment } from 'src/environments/environment';
+import { Bucket } from '../../interfaces/bucket.interface';
 
 @Component({
   selector: 'app-list-buckets',
@@ -11,7 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ListBucketsComponent implements OnInit {
   links = environment.links;
-  buckets = '';
+  buckets: Bucket[] = [];
 
   constructor(private s3Service: S3Service) { }
 
@@ -21,10 +22,8 @@ export class ListBucketsComponent implements OnInit {
   loadBuckets(): void {
     this.s3Service.getBuckets().pipe(
       first()
-    ).subscribe((buckets: string) => {
-      console.log('loaded buckets');
+    ).subscribe((buckets: Bucket[]) => {
       this.buckets = buckets;
     });
   }
-
 }
