@@ -1,27 +1,42 @@
-<h2>Objects in Bucket: {{ bucket }}</h2>
-<ng-container *ngIf='objects$ | async as objects'>
-  <table mat-table [dataSource]="objects">
-    <ng-container matColumnDef="Key">
-      <th mat-header-cell *matHeaderCellDef> Key </th>
-      <td mat-cell *matCellDef="let element" class='key' [title]='element.Key'><button mat-button (click)="downloadFile(element.Key)">{{element.Key}}</button></td>
-    </ng-container>
 
-    <ng-container matColumnDef="LastModified">
-      <th mat-header-cell *matHeaderCellDef> Last Modified </th>
-      <td mat-cell *matCellDef="let element"> {{element.LastModified | date:'short'}} </td>
-    </ng-container>
+<h2>Objects in Bucket: {{ selectedBucket }}</h2>
+<div class='list-objects' *ngIf='objects$ | async as objects'>
+  <table mat-table [dataSource]="objects" class='list-objects-table'>
+    <mat-radio-group [(ngModel)]="selectedKey">
+      <ng-container matColumnDef="Key">
+        <th mat-header-cell *matHeaderCellDef> Key </th>
+        <td mat-cell *matCellDef="let element" class='key' [title]='element.Key'>
+          <mat-radio-button name='selectedKey' [value]='element.Key' (click)="sidenav.open()">{{ element.Key }}</mat-radio-button>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="Size">
-      <th mat-header-cell *matHeaderCellDef> Size </th>
-      <td mat-cell *matCellDef="let element"> {{element.Size / 1000000 | number: '1.0-2'}} MB</td>
-    </ng-container>
+      <ng-container matColumnDef="LastModified">
+        <th mat-header-cell *matHeaderCellDef> Last Modified </th>
+        <td mat-cell *matCellDef="let element"> {{element.LastModified | date:'short'}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="StorageClass">
-      <th mat-header-cell *matHeaderCellDef> StorageClass </th>
-      <td mat-cell *matCellDef="let element"> {{element.StorageClass}} </td>
-    </ng-container>
+      <ng-container matColumnDef="Size">
+        <th mat-header-cell *matHeaderCellDef> Size </th>
+        <td mat-cell *matCellDef="let element"> {{element.Size / 1000000 | number: '1.0-2'}} MB</td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <ng-container matColumnDef="StorageClass">
+        <th mat-header-cell *matHeaderCellDef> StorageClass </th>
+        <td mat-cell *matCellDef="let element"> {{element.StorageClass}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </mat-radio-group>
   </table>
-</ng-container>
+
+  <mat-sidenav-container class='list-objects-functions mat-elevation-z8' autosize>
+    <mat-sidenav class='list-objects-functions-sidenav'  #sidenav mode="side" position="end">
+      <app-object-functions
+        (close)="objectFunctionsClosed(); sidenav.close()"
+        [bucket]="selectedBucket"
+        [key]="selectedKey">
+      </app-object-functions>
+    </mat-sidenav>
+  </mat-sidenav-container>
+</div>

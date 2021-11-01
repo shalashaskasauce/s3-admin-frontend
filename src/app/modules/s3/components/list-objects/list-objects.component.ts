@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
@@ -12,7 +13,8 @@ import { S3Service } from '../../services/s3.service';
 })
 export class ListObjectsComponent implements OnInit {
   objects$: Observable<S3Object[]> = of([]);
-  bucket = '';
+  selectedBucket = '';
+  selectedKey = '';
 
   readonly displayedColumns = ['Key', 'LastModified', 'Size', 'StorageClass'];
   constructor(private s3Service: S3Service, private route: ActivatedRoute) { }
@@ -20,18 +22,15 @@ export class ListObjectsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.objects$ = this.s3Service.getObjects(params.bucket);
-      this.bucket = params.bucket;
+      this.selectedBucket = params.bucket;
     });
   }
 
-  downloadFile(objectKey: string) {
-    this.s3Service.getObject(this.bucket, objectKey).subscribe((response) => {
-      const blob = new Blob([response], { type: "application/octet-stream" });
-      const url = window.URL.createObjectURL(blob);
-      const anchor = document.createElement("a");
-      anchor.download = objectKey;
-      anchor.href = url;
-      anchor.click();
-    });
+  selectKey(key: string): void {
+    this.selectedKey = key;
+  }
+
+  objectFunctionsClosed(): void {
+    this.selectedKey = '';
   }
 }

@@ -1,10 +1,32 @@
-td.mat-cell {
-  padding: 0 10px;
-}
 
-td.key {
-  max-width: 150px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+.list-objects {
+  display: flex;
+
+
+  &-table {
+    min-width: 66%;
+    flex: 1 1 auto;
+
+    td.mat-cell {
+      padding: 0 10px;
+    }
+
+    td.key {
+      max-width: 150px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+
+  /* ugly but functional. Could use flex instead? */
+  &-functions {
+    flex: 1 1 auto;
+    min-height: 130px;
+    min-width: 0;
+    max-width: 500px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }
