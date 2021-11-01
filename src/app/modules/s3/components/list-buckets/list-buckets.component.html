@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-card-title>
+    List Buckets
+    <a [href]='links.s3_bucket.href'
+      [title]='links.s3_bucket.title'
+      target='s3_manual'
+      color="primary"
+      mat-icon-button>
+      <mat-icon>help</mat-icon>
+    </a>
+  </mat-card-title>
+  <button (click)="loadBuckets()"
+    mat-raised-button
+    color="primary">Fetch Buckets</button>
+</mat-card>
+<mat-list>
+  <mat-card mat-list-item *ngFor="let bucket of buckets">
+    <mat-card-title>Bucket: {{ bucket.Name }}</mat-card-title>
+    <mat-card-subtitle>Created: {{ bucket.CreationDate }}</mat-card-subtitle>
+    <mat-card-actions>
+      <button mat-button routerLink="objects/{{bucket.Name}}">Fetch Objects</button>
+    </mat-card-actions>
+  </mat-card>
+</mat-list>
