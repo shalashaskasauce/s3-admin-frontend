@@ -17,8 +17,8 @@ export class S3Service {
     return this.httpClient.get<Bucket[]>(`${this.apiUrl}/buckets`);
   }
 
-  getObjects(bucket: string): Observable<S3Object[]> {
-    return this.httpClient.get<S3Object[]>(`${this.apiUrl}/objects/${bucket}`);
+  getObjects(bucket: string, prefix = ''): Observable<S3Object[]> {
+    return this.httpClient.get<S3Object[]>(`${this.apiUrl}/objects/${bucket}?prefix=${prefix}`);
   }
 
   getObject(bucket: string, key: string) {

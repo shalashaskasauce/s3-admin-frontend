@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
+import { environment } from 'src/environments/environment';
 import { S3Service } from '../../services/s3.service';
 
 @Component({
@@ -17,7 +19,7 @@ export class ObjectFunctionsComponent implements OnInit {
   }
 
   downloadFile() {
-    this.s3Service.getObject(this.bucket, this.key).subscribe((response) => {
+    this.s3Service.getObject(this.bucket, `${environment.productPrefix}/${this.key}`).subscribe((response) => {
       const blob = new Blob([response], { type: "application/octet-stream" });
       const url = window.URL.createObjectURL(blob);
       // generate ad-hoc anchor to set filename

@@ -1,4 +1,10 @@
 .object-functions {
   width: 350px;
   height: 100%;
+
+  &-title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: auto;
+  }
 }

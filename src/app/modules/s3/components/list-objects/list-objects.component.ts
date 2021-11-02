@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { first } from 'rxjs/operators';
 
+import { environment } from 'src/environments/environment';
 import { S3Object } from '../../interfaces/s3object.interface';
 import { S3Service } from '../../services/s3.service';
 
@@ -12,7 +12,7 @@ import { S3Service } from '../../services/s3.service';
   styleUrls: ['./list-objects.component.scss']
 })
 export class ListObjectsComponent implements OnInit {
-  objects$: Observable<S3Object[]> = of([]);
+  objects: S3Object[] = [];
   selectedBucket = '';
   selectedKey = '';
 
@@ -21,7 +21,7 @@ export class ListObjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.objects$ = this.s3Service.getObjects(params.bucket);
+      this.loadObjects(params.bucket);
       this.selectedBucket = params.bucket;
     });
   }
@@ -32,5 +32,17 @@ export class ListObjectsComponent implements OnInit {
 
   objectFunctionsClosed(): void {
     this.selectedKey = '';
+  }
+
+  private loadObjects(bucket: string) {
+    const prefix = environment.productPrefix;
+
+    this.s3Service.getObjects(bucket, prefix)
+      .pipe(first()).subscribe((objects) => {
+      // trim prefixes, filter empty string (directory, e.g.; /products/)
+      this.objects = objects
+        .map((object: S3Object) => { return { ...object, Key: object.Key.replace(`${prefix}/`, '') }})
+        .filter((object: S3Object) => object.Key !== '');
+    });
   }
 }

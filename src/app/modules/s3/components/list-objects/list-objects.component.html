@@ -1,6 +1,6 @@
 
 <h2>Objects in Bucket: {{ selectedBucket }}</h2>
-<div class='list-objects' *ngIf='objects$ | async as objects'>
+<div class='list-objects' *ngIf='objects'>
   <table mat-table [dataSource]="objects" class='list-objects-table'>
     <mat-radio-group [(ngModel)]="selectedKey">
       <ng-container matColumnDef="Key">
