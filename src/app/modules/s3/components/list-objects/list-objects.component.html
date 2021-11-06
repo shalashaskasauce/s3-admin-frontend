@@ -30,13 +30,13 @@
     </mat-radio-group>
   </table>
 
-  <mat-sidenav-container class='list-objects-functions mat-elevation-z8' autosize>
-    <mat-sidenav class='list-objects-functions-sidenav'  #sidenav mode="side" position="end">
+  <mat-drawer-container class='list-objects-functions mat-elevation-z8'>
+    <mat-drawer class='list-objects-functions-sidenav' #sidenav mode="side" position="end">
       <app-object-functions
         (close)="objectFunctionsClosed(); sidenav.close()"
         [bucket]="selectedBucket"
         [key]="selectedKey">
       </app-object-functions>
-    </mat-sidenav>
-  </mat-sidenav-container>
+    </mat-drawer>
+  </mat-drawer-container>
 </div>

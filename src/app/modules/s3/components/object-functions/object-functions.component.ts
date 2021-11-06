@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { environment } from 'src/environments/environment';
 import { S3Service } from '../../services/s3.service';
@@ -13,12 +14,20 @@ export class ObjectFunctionsComponent implements OnInit {
   @Input() key: string = '';
   @Output() close = new EventEmitter();
 
-  constructor(private s3Service: S3Service) { }
+  form: FormGroup = this.formBuilder.group({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    limit: new FormControl(1, [Validators.required, Validators.min(1)])
+  });
+
+  downloadLink = '';
+
+  constructor(private s3Service: S3Service, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+
   }
 
-  downloadFile() {
+  downloadFile(): void {
     this.s3Service.getObject(this.bucket, `${environment.productPrefix}/${this.key}`).subscribe((response) => {
       const blob = new Blob([response], { type: "application/octet-stream" });
       const url = window.URL.createObjectURL(blob);
@@ -28,5 +37,18 @@ export class ObjectFunctionsComponent implements OnInit {
       anchor.href = url;
       anchor.click();
     });
+  }
+
+  generateLink(): void {
+    const email = this.form.get('email')?.value;
+    const maxDownloads = this.form.get('limit')?.value || 1;
+
+    this.s3Service.postAccessLink(this.bucket, this.key, email, maxDownloads)
+      .subscribe((result) => {
+        console.log(result);
+
+        this.downloadLink = `${environment.apiUrl}${result.link}`;
+      }
+    );
   }
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AdminComponent } from './components/admin/admin.component';
 import { ListBucketsComponent } from './components/list-buckets/list-buckets.component';
@@ -19,6 +19,7 @@ import { ObjectFunctionsComponent } from './components/object-functions/object-f
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     S3RoutingModule
   ]

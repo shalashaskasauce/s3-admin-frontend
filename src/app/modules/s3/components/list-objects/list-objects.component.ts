@@ -41,7 +41,7 @@ export class ListObjectsComponent implements OnInit {
       .pipe(first()).subscribe((objects) => {
       // trim prefixes, filter empty string (directory, e.g.; /products/)
       this.objects = objects
-        .map((object: S3Object) => { return { ...object, Key: object.Key.replace(`${prefix}/`, '') }})
+        .map((object: S3Object) => ({ ...object, Key: object.Key.replace(`${prefix}/`, '') }))
         .filter((object: S3Object) => object.Key !== '');
     });
   }

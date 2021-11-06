@@ -1,10 +1,24 @@
 .object-functions {
-  width: 350px;
-  height: 100%;
+  overflow: auto;
 
   &-title {
+    height: 25px;
+    max-width: 95%;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: auto;
+  }
+
+  form {
+    max-width: 500px;
+  }
+
+  .email-field {
+    width: 100%;
+  }
+
+  a {
+    color: wheat; // rando color that is visible
+    display: block;
   }
 }

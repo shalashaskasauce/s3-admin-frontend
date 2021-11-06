@@ -1,14 +1,18 @@
 
 .list-objects {
-  display: flex;
-
+  height: 100%;
+  position: relative;
 
   &-table {
-    min-width: 66%;
-    flex: 1 1 auto;
+    width: 100%;
+
+    tr {
+      max-height: 48px;
+    }
 
     td.mat-cell {
       padding: 0 10px;
+      height: 48px;
     }
 
     td.key {
@@ -19,14 +23,20 @@
     }
   }
 
-  /* ugly but functional. Could use flex instead? */
-  &-functions {
-    flex: 1 1 auto;
-    min-height: 130px;
-    min-width: 0;
-    max-width: 500px;
-    position: absolute;
-    top: 0;
-    right: 0;
+  .mat-drawer-opened {
+    min-width: 300px;
   }
+
+  &-functions {
+    overflow: auto;
+    height: 100%;
+    width: 0;
+
+    .mat-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+    }
+  }
+
 }

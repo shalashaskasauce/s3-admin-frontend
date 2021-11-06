@@ -25,4 +25,12 @@ export class S3Service {
     // blob as json - really stupid hack as we need "blob" but Angular type is json | undefined
     return this.httpClient.get<string>(`${this.apiUrl}/object/${bucket}?key=${key}`, { responseType: 'blob' as 'json' });
   }
+
+  postAccessLink(bucket: string, key: string, email: string, maxDownloads: number = 1) {
+    return this.httpClient.post<string>(`${this.apiUrl}/admin/${bucket}`, {
+      key: key,
+      email: email,
+      max_downloads: maxDownloads
+    });
+  }
 }
