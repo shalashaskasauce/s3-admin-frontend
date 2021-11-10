@@ -28,7 +28,7 @@ export class S3Service {
 
   postAccessLink(bucket: string, key: string, email: string, maxDownloads: number = 1) {
     return this.httpClient.post<string>(`${this.apiUrl}/admin/${bucket}`, {
-      key: key,
+      key: `${environment.productPrefix}/${key}`,
       email: email,
       max_downloads: maxDownloads
     });
