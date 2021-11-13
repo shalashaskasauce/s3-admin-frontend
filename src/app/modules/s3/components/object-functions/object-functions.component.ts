@@ -19,7 +19,7 @@ export class ObjectFunctionsComponent implements OnInit {
     limit: new FormControl(1, [Validators.required, Validators.min(1)])
   });
 
-  downloadLink = '';
+  downloadLinks: string[] = [];
 
   constructor(private s3Service: S3Service, private formBuilder: FormBuilder) { }
 
@@ -45,9 +45,7 @@ export class ObjectFunctionsComponent implements OnInit {
 
     this.s3Service.postAccessLink(this.bucket, this.key, email, maxDownloads)
       .subscribe((result) => {
-        console.log(result);
-
-        this.downloadLink = `${environment.apiUrl}${result.link}`;
+        this.downloadLinks = result.links.map(link => `${environment.apiUrl}${link}`);
       }
     );
   }

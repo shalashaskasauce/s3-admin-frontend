@@ -10,8 +10,7 @@
         </mat-expansion-panel-header>
       <form [formGroup]="form">
         <mat-form-field class='email-field'>
-          <input matInput placeholder="Email" type="email" formControlName="email"
-            value="mychalis+testlink@gmail.com">
+          <input matInput placeholder="Email" type="email" formControlName="email">
         </mat-form-field><br>
         <mat-form-field>
           <input formControlName="limit"
@@ -20,7 +19,11 @@
         </mat-form-field><br>
         <button mat-button (click)="generateLink()">Generate</button>
         <button mat-button disabled>Send</button>
-        <a *ngIf='downloadLink' [href]='downloadLink' target="downloadLink">{{downloadLink}}</a>
+        <ul>
+          <li *ngFor="let link of downloadLinks">
+            <a [href]='link' target="link">{{link}}</a>
+          </li>
+        </ul>
       </form>
     </mat-expansion-panel>
   </mat-card-content>
